@@ -13,9 +13,17 @@ app.use(
 );
 app.use(express.json());
 
-app.get("/", async (req, res) => {
-  const blogposts = await BlogpostModel.find().exec();
-  res.status(200).json(blogposts);
+// Non-existent Endpoint Handler Middleware
+app.use((req, res, next) => {
+  next(Error("Endpoint not found."));
+});
+
+// Error Handler Middleware
+app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+  console.error(error);
+  let errorMessage = "An unknown error occured.";
+  if (error instanceof Error) errorMessage = error.message;
+  res.status(500).json({ error: errorMessage });
 });
 
 
