@@ -9,4 +9,8 @@ router.get("/:blogpostId", BlogpostsController.getBlogpost);
 
 router.post("/", BlogpostsController.createBlogpost);
 
+router.patch("/:blogpostId", BlogpostsController.updateBlogpost);
+
+router.delete("/:blogpostId", BlogpostsController.deleteBlogpost);
+
 export default router;

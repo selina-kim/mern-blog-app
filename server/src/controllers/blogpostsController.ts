@@ -64,3 +64,73 @@ export const createBlogpost: RequestHandler<
     next(error);
   }
 };
+
+interface UpdateBlogpostParams {
+  blogpostId: string;
+}
+
+interface UpdateBlogpostBody {
+  title?: string;
+  summary?: string;
+  content?: string;
+  thumbnail?: string;
+}
+
+export const updateBlogpost: RequestHandler<
+  UpdateBlogpostParams,
+  unknown,
+  UpdateBlogpostBody,
+  unknown
+> = async (req, res, next) => {
+  const blogpostId = req.params.blogpostId;
+  const { title, summary, content, thumbnail } = req.body;
+
+  try {
+    if (!mongoose.isValidObjectId(blogpostId)) {
+      throw createHttpError(400, "Invalid blog post ID.");
+    }
+
+    if (!title) {
+      throw createHttpError(400, "Blog post must have a title.");
+    }
+
+    const blogpost = await BlogpostModel.findById(blogpostId).exec();
+
+    if (!blogpost) {
+      throw createHttpError(404, "Blog post not found.");
+    }
+
+    blogpost.title = title;
+    blogpost.summary = summary;
+    blogpost.content = content;
+    blogpost.thumbnail = thumbnail;
+
+    const updatedBlogpost = await blogpost.save();
+
+    res.status(200).json(updatedBlogpost);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteBlogpost: RequestHandler = async (req, res, next) => {
+  const blogpostId = req.params.blogpostId;
+
+  try {
+    if (!mongoose.isValidObjectId(blogpostId)) {
+      throw createHttpError(400, "Invalid blog post ID.");
+    }
+
+    const blogpost = await BlogpostModel.findById(blogpostId).exec();
+
+    if (!blogpost) {
+      throw createHttpError(404, "Blog post not found.");
+    }
+
+    await blogpost.deleteOne();
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
