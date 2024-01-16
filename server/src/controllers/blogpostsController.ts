@@ -10,6 +10,18 @@ export const getBlogposts: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getBlogpost: RequestHandler = async (req, res, next) => {
+  const blogpostId = req.params.blogpostId;
+
+  try {
+    const blogpost = await BlogpostModel.findById(blogpostId).exec();
+
+    res.status(200).json(blogpost);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createBlogpost: RequestHandler = async (req, res, next) => {
   const { title, summary, content, thumbnail } = req.body;
 
