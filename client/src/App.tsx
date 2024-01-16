@@ -11,6 +11,7 @@ import Layout from "./Layout.tsx";
 import { Home } from "./pages/Home.tsx";
 import { Login } from "./pages/Login.tsx";
 import { Signup } from "./pages/Signup.tsx";
+import { Blogpost } from "./pages/Blogpost.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="blogpost" element={<Blogpost />} />
     </Route>,
   ),
 );
