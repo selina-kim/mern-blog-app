@@ -2,9 +2,13 @@ import { config } from "dotenv";
 config();
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import morgan from "morgan";
+
 import blogpostsRoutes from "./routes/blogpostsRoutes";
 
 const app = express();
+
+app.use(morgan("dev"));
 
 app.use(
   cors({
