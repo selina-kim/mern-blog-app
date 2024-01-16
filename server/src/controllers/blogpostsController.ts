@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 export const getBlogposts: RequestHandler = async (req, res, next) => {
   try {
-    const blogposts = await BlogpostModel.find().exec();
+    const blogposts = await BlogpostModel.find().select("-content").exec();
     res.status(200).json(blogposts);
   } catch (error) {
     next(error);
