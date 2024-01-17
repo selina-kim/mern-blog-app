@@ -10,20 +10,17 @@ export function Login() {
   }
 
   return (
-    <div className="m-auto min-h-[560px]">
-      <form
-        className="mx-auto grid w-72 grid-cols-1 gap-y-5"
-        onSubmit={handleLogin}
-      >
+    <div className="m-auto min-h-[560px] w-fit p-4">
+      <form className="grid w-72 grid-cols-1 gap-y-5" onSubmit={handleLogin}>
         <h1 className="my-4 text-center text-2xl font-bold">
           Login with Email
         </h1>
 
         <div>
-          <label className="block text-sm" htmlFor="login-email">
+          <label className="mb-1 block text-sm" htmlFor="login-email">
             Email
           </label>
-          <div className="w-full rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-violet-500">
+          <div className="w-full rounded-md border border-gray-400 p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
             <input
               type="text"
               id="login-email"
@@ -38,10 +35,10 @@ export function Login() {
         </div>
 
         <div>
-          <label className="block text-sm" htmlFor="login-password">
+          <label className="mb-1 block text-sm" htmlFor="login-password">
             Password
           </label>
-          <div className="flex w-full flex-row gap-2 rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-violet-500">
+          <div className="flex w-full flex-row gap-2 rounded-md border border-gray-400 p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
             <input
               type={showPassword ? "text" : "password"}
               id="login-password"
@@ -62,7 +59,7 @@ export function Login() {
           </div>
         </div>
 
-        <button className="my-4 rounded-md bg-violet-500 p-3 font-medium text-white">
+        <button className="my-4 rounded-md bg-violet-500 p-3 font-medium text-white focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
           Login
         </button>
       </form>

@@ -108,7 +108,7 @@ export function Blogpost() {
 
   return (
     <>
-      <div className="mx-16 mb-auto mt-10">
+      <div className="mx-10 mb-auto mt-10">
         <div className="mb-8 border-b-[1px] py-8">
           <h1 className="mb-6 text-4xl font-bold">TITLE</h1>
           <h2 className="mb-6 text-lg font-semibold italic">Summary</h2>

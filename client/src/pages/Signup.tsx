@@ -13,7 +13,7 @@ export function Signup() {
   }
 
   return (
-    <div className="m-auto min-h-[560px]">
+    <div className="m-auto min-h-[560px] w-fit p-4">
       <form
         id="login-form"
         className="mx-auto grid w-72 grid-cols-1 gap-y-5"
@@ -24,10 +24,10 @@ export function Signup() {
         </h1>
 
         <div>
-          <label className="block text-sm" htmlFor="signup-email">
+          <label className="mb-1 block text-sm" htmlFor="signup-email">
             Email
           </label>
-          <div className="w-full rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-violet-500">
+          <div className="w-full rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
             <input
               type="text"
               id="signup-email"
@@ -42,10 +42,10 @@ export function Signup() {
         </div>
 
         <div>
-          <label className="block text-sm" htmlFor="signup-username">
+          <label className="mb-1 block text-sm" htmlFor="signup-username">
             Username
           </label>
-          <div className="w-full rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-violet-500">
+          <div className="w-full rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
             <input
               type="text"
               id="signup-username"
@@ -60,10 +60,10 @@ export function Signup() {
         </div>
 
         <div>
-          <label className="block text-sm" htmlFor="signup-password">
+          <label className="mb-1 block text-sm" htmlFor="signup-password">
             Password
           </label>
-          <div className="flex w-full flex-row gap-2 rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-violet-500">
+          <div className="flex w-full flex-row gap-2 rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
             <input
               type={showPassword ? "text" : "password"}
               id="signup-password"
@@ -85,10 +85,13 @@ export function Signup() {
         </div>
 
         <div>
-          <label className="block text-sm" htmlFor="signup-confirm-password">
+          <label
+            className="mb-1 block text-sm"
+            htmlFor="signup-confirm-password"
+          >
             Confirm Password
           </label>
-          <div className="flex w-full flex-row gap-2 rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-1 focus-within:ring-violet-500">
+          <div className="flex w-full flex-row gap-2 rounded-md border-[1px] border-gray-400 p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
             <input
               type={showConfirmPassword ? "text" : "password"}
               id="signup-confirm-password"
@@ -109,7 +112,7 @@ export function Signup() {
           </div>
         </div>
 
-        <button className="my-4 rounded-md bg-violet-500 p-3 font-medium text-white">
+        <button className="my-4 rounded-md bg-violet-500 p-3 font-medium text-white focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
           Sign up
         </button>
       </form>
