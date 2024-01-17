@@ -8,7 +8,7 @@ import CloseEditorDialog from "../components/CloseEditorDialog";
 import * as BlogpostApi from "../api/blogposts_api";
 import { Navigate } from "react-router-dom";
 
-export function BlogpostEditor() {
+export function BlogpostEditorPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCloseEditorDialog, setShowCloseEditorDialog] = useState(false);
   const [redirect, setRedirect] = useState(false);

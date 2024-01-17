@@ -8,20 +8,20 @@ import {
   Route,
 } from "react-router-dom";
 import Layout from "./Layout.tsx";
-import { Home } from "./pages/Home.tsx";
-import { Login } from "./pages/Login.tsx";
-import { Signup } from "./pages/Signup.tsx";
-import { Blogpost } from "./pages/Blogpost.tsx";
-import { BlogpostEditor } from "./pages/BlogpostEditor.tsx";
+import { HomePage } from "./pages/HomePage.tsx";
+import { LoginPage } from "./pages/LoginPage.tsx";
+import { SignupPage } from "./pages/SignupPage.tsx";
+import { BlogpostPage } from "./pages/BlogpostPage.tsx";
+import { BlogpostEditorPage } from "./pages/BlogpostEditorPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
-      <Route path="blogpost" element={<Blogpost />} />
-      <Route path="editor" element={<BlogpostEditor />} />
+      <Route index element={<HomePage />} />
+      <Route path="login" element={<LoginPage />} />
+      <Route path="signup" element={<SignupPage />} />
+      <Route path="blogpost/:blogpostId" element={<BlogpostPage />} />
+      <Route path="editor" element={<BlogpostEditorPage />} />
     </Route>,
   ),
 );

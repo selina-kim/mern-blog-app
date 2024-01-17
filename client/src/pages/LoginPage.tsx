@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function Login() {
+export function LoginPage() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);

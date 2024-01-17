@@ -3,7 +3,7 @@ import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import BlogpostCard from "../components/BlogpostCard";
 import * as BlogpostsApi from "../api/blogposts_api";
 
-export function Home() {
+export function HomePage() {
   const [blogpostCards, setBlogpostCards] = useState<BlogpostCardModel[]>([]);
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+import { Blogpost } from "../models/blogpost";
 import { BlogpostCard } from "../models/blogpostCard";
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
@@ -13,6 +14,13 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
 
 export async function fetchBlogposts(): Promise<BlogpostCard[]> {
   const response = await fetchData("/api/blogposts", {
+    method: "GET",
+  });
+  return response.json();
+}
+
+export async function fetchBlogpost(blogpostId: string): Promise<Blogpost> {
+  const response = await fetchData("/api/blogposts/" + blogpostId, {
     method: "GET",
   });
   return response.json();

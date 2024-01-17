@@ -1,6 +1,6 @@
 import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import { Link } from "react-router-dom";
-import { formatDate } from "../utils/formatDate";
+import { formatDateShort } from "../utils/formatDateShort";
 import { PiTrashBold } from "react-icons/pi";
 
 interface BlogpostCardProps {
@@ -16,9 +16,9 @@ const BlogpostCard = ({
 
   let latestDate: string;
   if (updatedAt > createdAt) {
-    latestDate = "Updated: " + formatDate(updatedAt);
+    latestDate = "Updated: " + formatDateShort(updatedAt);
   } else {
-    latestDate = "Created: " + formatDate(createdAt);
+    latestDate = "Created: " + formatDateShort(createdAt);
   }
 
   return (
@@ -31,7 +31,7 @@ const BlogpostCard = ({
       >
         <PiTrashBold className="-mb-0.5" />
       </button>
-      <Link to="/blogpost" className="w-full">
+      <Link to={`blogpost/${blogpostCard._id}`} className="w-full">
         <div className="flex flex-row gap-x-2 rounded-lg border border-gray-300 p-2 md:gap-x-3 md:p-3">
           <div className="flex h-24 w-full flex-col md:h-36">
             <h2 className="line-clamp-1 text-lg font-bold md:text-2xl">
