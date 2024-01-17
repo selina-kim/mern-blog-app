@@ -4,26 +4,45 @@ import BlogpostCard from "../components/BlogpostCard";
 import * as BlogpostsApi from "../api/blogposts_api";
 
 export function Home() {
-  const [blogposts, setBlogposts] = useState<BlogpostCardModel[]>([]);
+  const [blogpostCards, setBlogpostCards] = useState<BlogpostCardModel[]>([]);
 
   useEffect(() => {
-    async function loadBlogposts() {
+    async function loadBlogpostCards() {
       try {
-        const newBlogposts = await BlogpostsApi.fetchBlogposts();
-        setBlogposts(newBlogposts);
+        const newBlogpostCards = await BlogpostsApi.fetchBlogposts();
+        setBlogpostCards(newBlogpostCards);
       } catch (error) {
         console.error(error);
         alert(error);
       }
     }
-    loadBlogposts();
+    loadBlogpostCards();
   }, []);
+
+  async function deleteBlogpostCard(blogpostCard: BlogpostCardModel) {
+    try {
+      await BlogpostsApi.deleteBlogpost(blogpostCard._id);
+      setBlogpostCards(
+        blogpostCards.filter(
+          (existingBlogpostCard) =>
+            existingBlogpostCard._id != blogpostCard._id,
+        ),
+      );
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  }
 
   return (
     <>
       <div className="mb-auto mt-8 grid grid-cols-1 gap-7 text-left">
-        {blogposts.map((blogpost) => (
-          <BlogpostCard blogpostCard={blogpost} key={blogpost._id} />
+        {blogpostCards.map((blogpostCard) => (
+          <BlogpostCard
+            blogpostCard={blogpostCard}
+            key={blogpostCard._id}
+            onDeleteBlogpostClicked={deleteBlogpostCard}
+          />
         ))}
       </div>
     </>

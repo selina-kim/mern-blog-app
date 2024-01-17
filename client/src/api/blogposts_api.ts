@@ -35,3 +35,7 @@ export async function createBlogpost(blogpost: BlogpostInput) {
   });
   return response.json();
 }
+
+export async function deleteBlogpost(blogpostId: string) {
+  await fetchData("/api/blogposts/" + blogpostId, { method: "DELETE" });
+}
