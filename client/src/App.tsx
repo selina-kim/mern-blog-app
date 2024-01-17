@@ -21,10 +21,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="blogpost" element={<Blogpost />} />
-      <Route
-        path="editor"
-        element={<BlogpostEditor onBlogpostPublished={() => {}} />}
-      />
+      <Route path="editor" element={<BlogpostEditor />} />
     </Route>,
   ),
 );

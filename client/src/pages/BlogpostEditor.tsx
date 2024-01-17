@@ -3,24 +3,15 @@ import MDEditor, { commands } from "@uiw/react-md-editor";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import useAutosizeTextArea from "../utils/useAutosizeTextArea";
-import { Blogpost } from "../models/blogpost";
 import { BlogpostInput } from "../api/blogposts_api";
 import CloseEditorDialog from "../components/CloseEditorDialog";
 import * as BlogpostApi from "../api/blogposts_api";
+import { Navigate } from "react-router-dom";
 
-interface BlogpostEditorProps {
-  onBlogpostPublished: (blogpost: Blogpost) => void;
-}
-
-export function BlogpostEditor({ onBlogpostPublished }: BlogpostEditorProps) {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors, isSubmitting },
-  // } = useForm<BlogpostInput>();
-
+export function BlogpostEditor() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCloseEditorDialog, setShowCloseEditorDialog] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -33,25 +24,30 @@ export function BlogpostEditor({ onBlogpostPublished }: BlogpostEditorProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setIsSubmitting(true);
-    onSubmit({
-      title: title,
-      summary: summary,
-      content: content,
-      thumbnail: "",
-    });
-    setIsSubmitting(false);
+    if (title.trim() != "") {
+      setIsSubmitting(true);
+      onSubmit({
+        title: title,
+        summary: summary,
+        content: content,
+        thumbnail: "",
+      });
+      setIsSubmitting(false);
+      setRedirect(true);
+    }
   }
 
   async function onSubmit(input: BlogpostInput) {
     try {
       const blogpostResponse = await BlogpostApi.createBlogpost(input);
-      onBlogpostPublished(blogpostResponse);
+      // blogpostResponse;
     } catch (error) {
       console.error(error);
       alert(error);
     }
   }
+
+  if (redirect) return <Navigate to="/" />;
 
   return (
     <div className="mx-10 mb-auto mt-10 grid h-full grid-cols-1 gap-y-6">
@@ -73,9 +69,9 @@ export function BlogpostEditor({ onBlogpostPublished }: BlogpostEditorProps) {
           Publish
         </button>
       </div>
-      <form id="blogpost" onSubmit={handleSubmit}>
+      <form id="blogpost" onSubmit={handleSubmit} noValidate>
         <label className="block text-sm font-semibold" htmlFor="blogpost-title">
-          Title
+          Title<span className="text-red-500">*</span>
         </label>
         <textarea
           required
