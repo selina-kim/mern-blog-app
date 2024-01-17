@@ -12,6 +12,7 @@ import { Home } from "./pages/Home.tsx";
 import { Login } from "./pages/Login.tsx";
 import { Signup } from "./pages/Signup.tsx";
 import { Blogpost } from "./pages/Blogpost.tsx";
+import { BlogpostEditor } from "./pages/BlogpostEditor.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,10 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="blogpost" element={<Blogpost />} />
+      <Route
+        path="editor"
+        element={<BlogpostEditor onBlogpostPublished={() => {}} />}
+      />
     </Route>,
   ),
 );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { BlogpostCard as BlogpostCardModel } from "../models/blogposts";
+import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import BlogpostCard from "../components/BlogpostCard";
+import * as BlogpostsApi from "../api/blogposts_api";
 
 export function Home() {
   const [blogposts, setBlogposts] = useState<BlogpostCardModel[]>([]);
@@ -8,10 +9,7 @@ export function Home() {
   useEffect(() => {
     async function loadBlogposts() {
       try {
-        const response = await fetch("/api/blogposts", {
-          method: "GET",
-        });
-        const newBlogposts = await response.json();
+        const newBlogposts = await BlogpostsApi.fetchBlogposts();
         setBlogposts(newBlogposts);
       } catch (error) {
         console.error(error);

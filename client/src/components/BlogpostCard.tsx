@@ -1,4 +1,4 @@
-import { BlogpostCard as BlogpostCardModel } from "../models/blogposts";
+import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
 
