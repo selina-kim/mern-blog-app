@@ -19,13 +19,12 @@ export function HomePage() {
     loadBlogpostCards();
   }, []);
 
-  async function deleteBlogpostCard(blogpostCard: BlogpostCardModel) {
+  async function deleteBlogpost(blogpostId: string) {
     try {
-      await BlogpostsApi.deleteBlogpost(blogpostCard._id);
+      await BlogpostsApi.deleteBlogpost(blogpostId);
       setBlogpostCards(
         blogpostCards.filter(
-          (existingBlogpostCard) =>
-            existingBlogpostCard._id != blogpostCard._id,
+          (existingBlogpostCard) => existingBlogpostCard._id != blogpostId,
         ),
       );
     } catch (error) {
@@ -41,7 +40,7 @@ export function HomePage() {
           <BlogpostCard
             blogpostCard={blogpostCard}
             key={blogpostCard._id}
-            onDeleteBlogpostClicked={deleteBlogpostCard}
+            onDeleteBlogpostClicked={deleteBlogpost}
           />
         ))}
       </div>

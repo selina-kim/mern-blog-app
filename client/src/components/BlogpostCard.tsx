@@ -5,7 +5,7 @@ import { PiTrashBold } from "react-icons/pi";
 
 interface BlogpostCardProps {
   blogpostCard: BlogpostCardModel;
-  onDeleteBlogpostClicked: (blogpostCard: BlogpostCardModel) => void;
+  onDeleteBlogpostClicked: (blogpostId: string) => void;
 }
 
 const BlogpostCard = ({
@@ -26,7 +26,7 @@ const BlogpostCard = ({
       <button
         className="rounded bg-red-200 p-1 text-xl hover:bg-red-300"
         onClick={() => {
-          onDeleteBlogpostClicked(blogpostCard);
+          onDeleteBlogpostClicked(blogpostCard._id);
         }}
       >
         <PiTrashBold className="-mb-0.5" />

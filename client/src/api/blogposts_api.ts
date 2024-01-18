@@ -33,9 +33,25 @@ export interface BlogpostInput {
   thumbnail?: string;
 }
 
-export async function createBlogpost(blogpost: BlogpostInput) {
+export async function createBlogpost(
+  blogpost: BlogpostInput,
+): Promise<Blogpost> {
   const response = await fetchData("/api/blogposts", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(blogpost),
+  });
+  return response.json();
+}
+
+export async function updateBlogpost(
+  blogpostId: string,
+  blogpost: BlogpostInput,
+): Promise<Blogpost> {
+  const response = await fetchData("/api/blogposts/" + blogpostId, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },

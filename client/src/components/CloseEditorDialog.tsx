@@ -1,12 +1,14 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
 
 interface CloseEditorDialogProps {
   onDismiss: () => void;
+  onConfirm: () => void;
 }
-
-function CloseEditorDialog({ onDismiss }: CloseEditorDialogProps) {
+const CloseEditorDialog = ({
+  onDismiss,
+  onConfirm,
+}: CloseEditorDialogProps) => {
   return (
     <Transition appear show as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onDismiss}>
@@ -55,12 +57,13 @@ function CloseEditorDialog({ onDismiss }: CloseEditorDialogProps) {
                     Cancel
                   </button>
 
-                  <Link
+                  <button
+                    type="button"
                     className="justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
-                    to="/"
+                    onClick={() => onConfirm()}
                   >
                     Confirm
-                  </Link>
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -69,6 +72,6 @@ function CloseEditorDialog({ onDismiss }: CloseEditorDialogProps) {
       </Dialog>
     </Transition>
   );
-}
+};
 
 export default CloseEditorDialog;

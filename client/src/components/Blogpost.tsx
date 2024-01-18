@@ -2,10 +2,13 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { formatDateLong } from "../utils/formatDateLong";
 import { Blogpost as BlogpostModel } from "../models/blogpost";
+import { PiPencilSimpleLineBold, PiTrashBold } from "react-icons/pi";
+import { Navigate } from "react-router-dom";
+import { useState } from "react";
 
 interface BlogpostProps {
   blogpost: BlogpostModel;
-  onDeleteBlogpostClicked: (blogpost: BlogpostModel) => void;
+  onDeleteBlogpostClicked: (blogpostId: string) => void;
   width: string;
 }
 
@@ -16,8 +19,31 @@ const Blogpost = ({
 }: BlogpostProps) => {
   const { title, summary, content, thumbnail, createdAt, updatedAt } = blogpost;
 
+  const [redirectEditor, setRedirectEditor] = useState(false);
+
+  if (redirectEditor) return <Navigate to={`/editor/${blogpost._id}`} />;
+
   return (
     <>
+      <div className="flex flex-row justify-end gap-x-3">
+        <button
+          className="flex flex-row items-center gap-x-1 rounded bg-gray-200 px-2 py-1 hover:bg-gray-300"
+          onClick={() => {
+            setRedirectEditor(true);
+          }}
+        >
+          <div className="font-mono text-xl font-semibold leading-none">
+            EDIT
+          </div>
+          <PiPencilSimpleLineBold className="text-xl" />
+        </button>
+        <button
+          className="rounded bg-red-200 p-1 text-xl hover:bg-red-300"
+          onClick={() => onDeleteBlogpostClicked(blogpost._id)}
+        >
+          <PiTrashBold className="-mb-0.5" />
+        </button>
+      </div>
       <div className={`mb-8 border-b-[1px] py-8 w-[${width}px]`}>
         <h1 className="mb-3 text-4xl font-bold">{title}</h1>
         <h2 className="mb-6 text-lg font-semibold italic">{summary}</h2>

@@ -1,24 +1,48 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import useAutosizeTextArea from "../utils/useAutosizeTextArea";
-import { BlogpostInput } from "../api/blogposts_api";
 import CloseEditorDialog from "../components/CloseEditorDialog";
 import * as BlogpostApi from "../api/blogposts_api";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import { Blogpost } from "../models/blogpost";
+import * as BlogpostsApi from "../api/blogposts_api";
 
 export function BlogpostEditorPage() {
+  const [blogpostId, setBlogpostId] = useState("");
+  const { origBlogpostId } = useParams();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCloseEditorDialog, setShowCloseEditorDialog] = useState(false);
-  const [redirect, setRedirect] = useState(false);
+  const [redirectBlogpost, setRedirectBlogpost] = useState(false);
+  const [redirectHome, setRedirectHome] = useState(false);
 
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
+
+  useEffect(() => {
+    if (origBlogpostId) {
+      async function loadBlogpost() {
+        try {
+          const origBlogpost = await BlogpostsApi.fetchBlogpost(
+            origBlogpostId!,
+          );
+          setTitle(origBlogpost.title);
+          origBlogpost.summary ? setSummary(origBlogpost.summary) : "";
+          origBlogpost.content ? setContent(origBlogpost.content) : "";
+        } catch (error) {
+          console.error(error);
+          alert(error);
+        }
+      }
+      loadBlogpost();
+    }
+  }, []);
+
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const summaryRef = useRef<HTMLTextAreaElement>(null);
-
   useAutosizeTextArea(titleRef.current, title);
   useAutosizeTextArea(summaryRef.current, summary);
 
@@ -26,28 +50,43 @@ export function BlogpostEditorPage() {
     e.preventDefault();
     if (title.trim() != "") {
       setIsSubmitting(true);
-      onSubmit({
-        title: title,
-        summary: summary,
-        content: content,
-        thumbnail: "",
-      });
+      try {
+        let blogpostResponse: Blogpost;
+        if (origBlogpostId) {
+          blogpostResponse = await BlogpostApi.updateBlogpost(origBlogpostId, {
+            title: title,
+            summary: summary,
+            content: content,
+            thumbnail: "",
+          });
+        } else {
+          blogpostResponse = await BlogpostApi.createBlogpost({
+            title: title,
+            summary: summary,
+            content: content,
+            thumbnail: "",
+          });
+        }
+        setBlogpostId(blogpostResponse._id);
+        setRedirectBlogpost(true);
+      } catch (error) {
+        console.error(error);
+        alert(error);
+      }
       setIsSubmitting(false);
-      setRedirect(true);
     }
   }
 
-  async function onSubmit(input: BlogpostInput) {
-    try {
-      const blogpostResponse = await BlogpostApi.createBlogpost(input);
-      // blogpostResponse;
-    } catch (error) {
-      console.error(error);
-      alert(error);
+  function redirectBack() {
+    if (!origBlogpostId) setRedirectHome(true);
+    else {
+      setBlogpostId(origBlogpostId);
+      setRedirectBlogpost(true);
     }
   }
 
-  if (redirect) return <Navigate to="/" />;
+  if (redirectHome) return <Navigate to="/" />;
+  if (redirectBlogpost) return <Navigate to={`/blogpost/${blogpostId}`} />;
 
   return (
     <div className="mx-10 mb-auto mt-10 grid h-full grid-cols-1 gap-y-6">
@@ -124,7 +163,10 @@ export function BlogpostEditorPage() {
       </div>
 
       {showCloseEditorDialog && (
-        <CloseEditorDialog onDismiss={() => setShowCloseEditorDialog(false)} />
+        <CloseEditorDialog
+          onDismiss={() => setShowCloseEditorDialog(false)}
+          onConfirm={redirectBack}
+        />
       )}
     </div>
   );
