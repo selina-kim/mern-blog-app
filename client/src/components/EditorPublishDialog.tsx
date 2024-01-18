@@ -1,14 +1,14 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
-interface CloseEditorDialogProps {
+interface EditorPublishDialogProps {
   onDismiss: () => void;
   onConfirm: () => void;
 }
-const CloseEditorDialog = ({
+const EditorPublishDialog = ({
   onDismiss,
   onConfirm,
-}: CloseEditorDialogProps) => {
+}: EditorPublishDialogProps) => {
   return (
     <Transition appear show as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onDismiss}>
@@ -40,11 +40,11 @@ const CloseEditorDialog = ({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Close editor
+                  Publish blog post
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Are you sure? All unsaved data will be lost.
+                    Are you sure? Your changes will be updated immediately.
                   </p>
                 </div>
 
@@ -59,7 +59,7 @@ const CloseEditorDialog = ({
 
                   <button
                     type="button"
-                    className="justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                    className="justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                     onClick={() => onConfirm()}
                   >
                     Confirm
@@ -74,4 +74,4 @@ const CloseEditorDialog = ({
   );
 };
 
-export default CloseEditorDialog;
+export default EditorPublishDialog;

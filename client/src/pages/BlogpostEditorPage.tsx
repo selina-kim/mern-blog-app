@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import MDEditor, { commands } from "@uiw/react-md-editor";
+import MDEditor from "@uiw/react-md-editor";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import useAutosizeTextArea from "../utils/useAutosizeTextArea";
-import CloseEditorDialog from "../components/CloseEditorDialog";
+import EditorCloseDialog from "../components/EditorCloseDialog";
 import * as BlogpostApi from "../api/blogposts_api";
 import { Navigate, useParams } from "react-router-dom";
 import { Blogpost } from "../models/blogpost";
 import * as BlogpostsApi from "../api/blogposts_api";
+import EditorPublishDialog from "../components/EditorPublishDialog";
 
 export function BlogpostEditorPage() {
   const [blogpostId, setBlogpostId] = useState("");
   const { origBlogpostId } = useParams();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showCloseEditorDialog, setShowCloseEditorDialog] = useState(false);
+  const [showEditorCloseDialog, setShowEditorCloseDialog] = useState(false);
+  const [showEditorPublishDialog, setShowEditorPublishDialog] = useState(false);
   const [redirectBlogpost, setRedirectBlogpost] = useState(false);
   const [redirectHome, setRedirectHome] = useState(false);
 
@@ -46,35 +48,37 @@ export function BlogpostEditorPage() {
   useAutosizeTextArea(titleRef.current, title);
   useAutosizeTextArea(summaryRef.current, summary);
 
-  async function handleSubmit(e: React.FormEvent) {
+  function checkSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (title.trim() != "") {
-      setIsSubmitting(true);
-      try {
-        let blogpostResponse: Blogpost;
-        if (origBlogpostId) {
-          blogpostResponse = await BlogpostApi.updateBlogpost(origBlogpostId, {
-            title: title,
-            summary: summary,
-            content: content,
-            thumbnail: "",
-          });
-        } else {
-          blogpostResponse = await BlogpostApi.createBlogpost({
-            title: title,
-            summary: summary,
-            content: content,
-            thumbnail: "",
-          });
-        }
-        setBlogpostId(blogpostResponse._id);
-        setRedirectBlogpost(true);
-      } catch (error) {
-        console.error(error);
-        alert(error);
+    if (title.trim() != "") setShowEditorPublishDialog(true);
+  }
+
+  async function handleSubmit() {
+    setIsSubmitting(true);
+    try {
+      let blogpostResponse: Blogpost;
+      if (origBlogpostId) {
+        blogpostResponse = await BlogpostApi.updateBlogpost(origBlogpostId, {
+          title: title,
+          summary: summary,
+          content: content,
+          thumbnail: "",
+        });
+      } else {
+        blogpostResponse = await BlogpostApi.createBlogpost({
+          title: title,
+          summary: summary,
+          content: content,
+          thumbnail: "",
+        });
       }
-      setIsSubmitting(false);
+      setBlogpostId(blogpostResponse._id);
+      setRedirectBlogpost(true);
+    } catch (error) {
+      console.error(error);
+      alert(error);
     }
+    setIsSubmitting(false);
   }
 
   function redirectBack() {
@@ -95,7 +99,7 @@ export function BlogpostEditorPage() {
           type="button"
           form="blogpost"
           className="w-20 rounded-md border border-black p-2 text-sm font-medium hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
-          onClick={() => setShowCloseEditorDialog(true)}
+          onClick={() => setShowEditorCloseDialog(true)}
         >
           Close
         </button>
@@ -108,7 +112,7 @@ export function BlogpostEditorPage() {
           Publish
         </button>
       </div>
-      <form id="blogpost" onSubmit={handleSubmit} noValidate>
+      <form id="blogpost" onSubmit={checkSubmit} noValidate>
         <label className="block text-sm font-semibold" htmlFor="blogpost-title">
           Title<span className="text-red-500">*</span>
         </label>
@@ -162,10 +166,17 @@ export function BlogpostEditorPage() {
         </div>
       </div>
 
-      {showCloseEditorDialog && (
-        <CloseEditorDialog
-          onDismiss={() => setShowCloseEditorDialog(false)}
+      {showEditorCloseDialog && (
+        <EditorCloseDialog
+          onDismiss={() => setShowEditorCloseDialog(false)}
           onConfirm={redirectBack}
+        />
+      )}
+
+      {showEditorPublishDialog && (
+        <EditorPublishDialog
+          onDismiss={() => setShowEditorPublishDialog(false)}
+          onConfirm={handleSubmit}
         />
       )}
     </div>
