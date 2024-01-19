@@ -2,18 +2,26 @@ import { useEffect, useState } from "react";
 import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import BlogpostCard from "../components/BlogpostCard";
 import * as BlogpostsApi from "../api/blogposts_api";
+import { ScaleLoader } from "react-spinners";
 
 export function HomePage() {
   const [blogpostCards, setBlogpostCards] = useState<BlogpostCardModel[]>([]);
+  const [blogpostCardsLoading, setBlogpostCardsLoading] = useState(true);
+  const [showBlogpostCardsLoadingError, setShowBlogpostCardsLoadingError] =
+    useState(false);
 
   useEffect(() => {
     async function loadBlogpostCards() {
       try {
+        setShowBlogpostCardsLoadingError(false);
+        setBlogpostCardsLoading(true);
         const newBlogpostCards = await BlogpostsApi.fetchBlogposts();
         setBlogpostCards(newBlogpostCards);
       } catch (error) {
         console.error(error);
-        alert(error);
+        setShowBlogpostCardsLoadingError(true);
+      } finally {
+        setBlogpostCardsLoading(false);
       }
     }
     loadBlogpostCards();
@@ -33,6 +41,33 @@ export function HomePage() {
     }
   }
 
+  const blogpostCardsGrid = (
+    <div className="grid grid-cols-1 gap-y-7 py-8 text-left">
+      {blogpostCards.map((blogpostCard) => (
+        <BlogpostCard
+          blogpostCard={blogpostCard}
+          key={blogpostCard._id}
+          onDeleteBlogpostClicked={deleteBlogpost}
+        />
+      ))}
+    </div>
+  );
+
+  return (
+    <>
+      {blogpostCardsLoading && (
+        <div className="flex h-full flex-col items-center justify-center">
+          <ScaleLoader
+            color="#8b5cf6"
+            // aria-label="Loading Spinner"
+          />
+        </div>
+      )}
+      {showBlogpostCardsLoadingError && (
+        <div className="flex h-full flex-col items-center justify-center">
+          <p>Something went wrong. Please refresh the page.</p>
+        </div>
+      )}
   return (
     <>
       <div className="grid grid-cols-1 gap-7 py-8 text-left">
