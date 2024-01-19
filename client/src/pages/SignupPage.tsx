@@ -15,6 +15,8 @@ export function SignupPage() {
     useState(false);
   const [showConfirmPasswordEmptyWarning, setShowConfirmPasswordEmptyWarning] =
     useState(false);
+  const [showPasswordNotMatchWarning, setShowPasswordNotMatchWarning] =
+    useState(false);
 
   function hasEmptyField() {
     let empty = false;
@@ -40,15 +42,31 @@ export function SignupPage() {
     else return false;
   }
 
+  function passwordMatch() {
+    if (password != confirmPassword) {
+      console.log(password != confirmPassword);
+      setShowPasswordNotMatchWarning(true);
+      return false;
+    } else {
+      setShowPasswordNotMatchWarning(false);
+      return true;
+    }
+  }
+
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
-    if (!hasEmptyField()) {
+    if (!hasEmptyField() && passwordMatch()) {
     }
   }
 
   const requiredWarningStyle = "border-red-500 bg-red-50";
   const requiredWarning = (
     <div className="mb-2 mt-1 text-xs text-red-500">This field is required</div>
+  );
+  const passwordNotMatchWarning = (
+    <div className="mb-2 mt-1 text-xs text-red-500">
+      Password does not match.
+    </div>
   );
 
   return (
@@ -141,7 +159,7 @@ export function SignupPage() {
             Confirm Password
           </label>
           <div
-            className={`flex w-full flex-row gap-2 rounded-md border ${showConfirmPasswordEmptyWarning ? requiredWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
+            className={`flex w-full flex-row gap-2 rounded-md border ${showConfirmPasswordEmptyWarning || showPasswordNotMatchWarning ? requiredWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
           >
             <input
               type={showConfirmPassword ? "text" : "password"}
@@ -162,7 +180,10 @@ export function SignupPage() {
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
           </div>
-          {showConfirmPasswordEmptyWarning && requiredWarning}
+          {showConfirmPasswordEmptyWarning &&
+            !showPasswordNotMatchWarning &&
+            requiredWarning}
+          {showPasswordNotMatchWarning && passwordNotMatchWarning}
         </div>
 
         <button className="my-4 rounded-md bg-violet-500 p-3 font-medium text-white focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">
