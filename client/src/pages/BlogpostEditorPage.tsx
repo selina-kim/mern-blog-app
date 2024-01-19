@@ -93,7 +93,7 @@ export function BlogpostEditorPage() {
   if (redirectBlogpost) return <Navigate to={`/blogpost/${blogpostId}`} />;
 
   return (
-    <div className="mx-10 mb-auto mt-10 grid h-full grid-cols-1 gap-y-6">
+    <div className="grid grid-cols-1 gap-y-6 px-8 py-8">
       <div className="right-0 flex flex-row justify-between">
         <button
           type="button"

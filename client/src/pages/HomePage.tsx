@@ -35,7 +35,7 @@ export function HomePage() {
 
   return (
     <>
-      <div className="mb-auto mt-8 grid grid-cols-1 gap-7 text-left">
+      <div className="grid grid-cols-1 gap-7 py-8 text-left">
         {blogpostCards.map((blogpostCard) => (
           <BlogpostCard
             blogpostCard={blogpostCard}

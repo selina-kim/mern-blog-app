@@ -37,7 +37,7 @@ export function BlogpostPage() {
 
   return (
     <>
-      <div className="mx-10 mb-auto mt-10 pb-4">
+      <div className="px-8 py-8">
         {blogpost.map((blogpost) => (
           <Blogpost
             width="656"

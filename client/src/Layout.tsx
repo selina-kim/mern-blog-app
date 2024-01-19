@@ -5,7 +5,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <div className="mx-auto min-h-screen max-w-3xl px-4 pt-[97px]">
+      <div className="mx-auto mt-[97px] h-[calc(100vh-97px)] min-h-fit max-w-3xl px-4">
         <Outlet />
       </div>
     </>
