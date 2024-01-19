@@ -16,23 +16,35 @@ export function SignupPage() {
   const [showConfirmPasswordEmptyWarning, setShowConfirmPasswordEmptyWarning] =
     useState(false);
 
-  async function checkSignup(e: React.FormEvent) {
-    e.preventDefault();
+  function hasEmptyField() {
+    let empty = false;
+
     if (email.trim() == "") {
       setShowEmailEmptyWarning(true);
+      empty = true;
     }
     if (username.trim() == "") {
       setShowUsernameEmptyWarning(true);
+      empty = true;
     }
     if (password.trim() == "") {
       setShowPasswordEmptyWarning(true);
+      empty = true;
     }
     if (confirmPassword.trim() == "") {
       setShowConfirmPasswordEmptyWarning(true);
-    } else handleSignup();
+      empty = true;
+    }
+
+    if (empty) return true;
+    else return false;
   }
 
-  async function handleSignup() {}
+  async function handleSignup(e: React.FormEvent) {
+    e.preventDefault();
+    if (!hasEmptyField()) {
+    }
+  }
 
   const requiredWarningStyle = "border-red-500 bg-red-50";
   const requiredWarning = (
@@ -44,7 +56,7 @@ export function SignupPage() {
       <form
         id="login-form"
         className="mx-auto grid w-72 grid-cols-1"
-        onSubmit={checkSignup}
+        onSubmit={handleSignup}
       >
         <h1 className="my-4 text-center text-2xl font-bold">Sign up</h1>
 

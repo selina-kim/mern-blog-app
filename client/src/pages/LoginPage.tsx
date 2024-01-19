@@ -10,17 +10,27 @@ export function LoginPage() {
   const [showPasswordEmptyWarning, setShowPasswordEmptyWarning] =
     useState(false);
 
-  async function checkLogin(e: React.FormEvent) {
-    e.preventDefault();
+  function hasEmptyField() {
+    let empty = false;
+
     if (username.trim() == "") {
       setShowUsernameEmptyWarning(true);
+      empty = true;
     }
     if (password.trim() == "") {
       setShowPasswordEmptyWarning(true);
-    } else handleLogin();
+      empty = true;
+    }
+
+    if (empty) return true;
+    else return false;
   }
 
-  async function handleLogin() {}
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    if (!hasEmptyField()) {
+    }
+  }
 
   const requiredWarningStyle = "border-red-500 bg-red-50";
   const requiredWarning = (
@@ -29,7 +39,7 @@ export function LoginPage() {
 
   return (
     <div className="m-auto min-h-[560px] w-fit p-4">
-      <form className="grid w-72 grid-cols-1" onSubmit={checkLogin}>
+      <form className="grid w-72 grid-cols-1" onSubmit={handleLogin}>
         <h1 className="my-4 text-center text-2xl font-bold">Login</h1>
 
         <div>
