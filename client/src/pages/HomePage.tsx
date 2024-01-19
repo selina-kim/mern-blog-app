@@ -68,17 +68,17 @@ export function HomePage() {
           <p>Something went wrong. Please refresh the page.</p>
         </div>
       )}
-  return (
-    <>
-      <div className="grid grid-cols-1 gap-7 py-8 text-left">
-        {blogpostCards.map((blogpostCard) => (
-          <BlogpostCard
-            blogpostCard={blogpostCard}
-            key={blogpostCard._id}
-            onDeleteBlogpostClicked={deleteBlogpost}
-          />
-        ))}
-      </div>
+      {!blogpostCardsLoading && !showBlogpostCardsLoadingError && (
+        <>
+          {blogpostCards.length > 0 ? (
+            blogpostCardsGrid
+          ) : (
+            <div className="flex h-full flex-col items-center justify-center">
+              <p>No blog posts yet.</p>
+            </div>
+          )}
+        </>
+      )}
     </>
   );
 }
