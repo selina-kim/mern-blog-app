@@ -1,14 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
-interface EditorCloseDialogProps {
+interface EditorTitleEmptyDialogProps {
   onDismiss: () => void;
-  onConfirm: () => void;
 }
-const EditorCloseDialog = ({
-  onDismiss,
-  onConfirm,
-}: EditorCloseDialogProps) => {
+const EditorTitleEmptyDialog = ({ onDismiss }: EditorTitleEmptyDialogProps) => {
   return (
     <Transition appear show as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onDismiss}>
@@ -40,29 +36,21 @@ const EditorCloseDialog = ({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Close editor
+                  Publish blog post
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Are you sure? All unsaved data will be lost.
+                    You can't publish a blog post with an empty title.
                   </p>
                 </div>
 
-                <div className="mt-4 flex flex-row justify-between">
+                <div className="mt-4 flex flex-row justify-center">
                   <button
                     type="button"
                     className="w-20 rounded-md border border-transparent bg-gray-200 px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                     onClick={onDismiss}
                   >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="button"
-                    className="w-20 justify-center rounded-md border border-transparent bg-red-500 px-2 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
-                    onClick={() => onConfirm()}
-                  >
-                    Confirm
+                    OK
                   </button>
                 </div>
               </Dialog.Panel>
@@ -74,4 +62,4 @@ const EditorCloseDialog = ({
   );
 };
 
-export default EditorCloseDialog;
+export default EditorTitleEmptyDialog;

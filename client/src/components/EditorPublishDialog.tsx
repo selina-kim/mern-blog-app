@@ -51,7 +51,7 @@ const EditorPublishDialog = ({
                 <div className="mt-4 flex flex-row justify-between">
                   <button
                     type="button"
-                    className="rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                    className="w-20 rounded-md border border-transparent bg-gray-200 px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                     onClick={onDismiss}
                   >
                     Cancel
@@ -59,7 +59,7 @@ const EditorPublishDialog = ({
 
                   <button
                     type="button"
-                    className="justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+                    className="w-20 justify-center rounded-md border border-transparent bg-green-500 px-2 py-2 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
                     onClick={() => onConfirm()}
                   >
                     Confirm

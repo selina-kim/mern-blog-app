@@ -9,6 +9,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { Blogpost } from "../models/blogpost";
 import * as BlogpostsApi from "../api/blogposts_api";
 import EditorPublishDialog from "../components/EditorPublishDialog";
+import EditorTitleEmptyDialog from "../components/EditorTitleEmptyDialog";
 
 export function BlogpostEditorPage() {
   const [blogpostId, setBlogpostId] = useState("");
@@ -17,6 +18,8 @@ export function BlogpostEditorPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showEditorCloseDialog, setShowEditorCloseDialog] = useState(false);
   const [showEditorPublishDialog, setShowEditorPublishDialog] = useState(false);
+  const [showEditorTitleEmptyDialog, setShowEditorTitleEmptyDialog] =
+    useState(false);
   const [redirectBlogpost, setRedirectBlogpost] = useState(false);
   const [redirectHome, setRedirectHome] = useState(false);
 
@@ -50,7 +53,9 @@ export function BlogpostEditorPage() {
 
   function checkSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (title.trim() != "") setShowEditorPublishDialog(true);
+    if (title.trim() == "") {
+      setShowEditorTitleEmptyDialog(true);
+    } else setShowEditorPublishDialog(true);
   }
 
   async function handleSubmit() {
@@ -172,11 +177,15 @@ export function BlogpostEditorPage() {
           onConfirm={redirectBack}
         />
       )}
-
       {showEditorPublishDialog && (
         <EditorPublishDialog
           onDismiss={() => setShowEditorPublishDialog(false)}
           onConfirm={handleSubmit}
+        />
+      )}
+      {showEditorTitleEmptyDialog && (
+        <EditorTitleEmptyDialog
+          onDismiss={() => setShowEditorTitleEmptyDialog(false)}
         />
       )}
     </div>
