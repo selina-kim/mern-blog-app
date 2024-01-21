@@ -6,4 +6,5 @@ export interface Blogpost {
   thumbnail?: string;
   createdAt: string;
   updatedAt: string;
+  username: string;
 }

@@ -5,4 +5,5 @@ export interface BlogpostCard {
   thumbnail?: string;
   createdAt: string;
   updatedAt: string;
+  username: string;
 }

@@ -3,8 +3,13 @@ import { useEffect, useState } from "react";
 import * as BlogpostsApi from "../api/blogposts_api";
 import { Navigate, useParams } from "react-router-dom";
 import Blogpost from "../components/Blogpost";
+import { User } from "../models/user";
 
-export function BlogpostPage() {
+interface BlogpostPageProps {
+  loggedInUser: User | null;
+}
+
+export function BlogpostPage({ loggedInUser }: BlogpostPageProps) {
   const { blogpostId } = useParams();
   const [blogpost, setBlogpost] = useState<BlogpostModel[]>([]);
   const [redirectHome, setRedirectHome] = useState(false);
@@ -44,6 +49,7 @@ export function BlogpostPage() {
             key={blogpost._id}
             blogpost={blogpost}
             onDeleteBlogpostClicked={deleteBlogpost}
+            loggedInUser={loggedInUser}
           />
         ))}
       </div>

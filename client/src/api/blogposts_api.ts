@@ -1,26 +1,18 @@
 import { Blogpost } from "../models/blogpost";
 import { BlogpostCard } from "../models/blogpostCard";
+import { fetchData } from "./fetch_api";
 
-async function fetchData(input: RequestInfo, init?: RequestInit) {
-  const response = await fetch(input, init);
-  if (response.ok) {
-    return response;
-  } else {
-    const errorBody = await response.json();
-    const errorMessage = errorBody.error;
-    throw Error(errorMessage);
-  }
-}
-
-export async function fetchBlogposts(): Promise<BlogpostCard[]> {
-  const response = await fetchData("/api/blogposts", {
+export async function fetchBlogposts(
+  username: string,
+): Promise<BlogpostCard[]> {
+  const response = await fetchData("/api/blog/" + username, {
     method: "GET",
   });
   return response.json();
 }
 
 export async function fetchBlogpost(blogpostId: string): Promise<Blogpost> {
-  const response = await fetchData("/api/blogposts/" + blogpostId, {
+  const response = await fetchData("/api/blog/blogpost/" + blogpostId, {
     method: "GET",
   });
   return response.json();
@@ -36,7 +28,7 @@ export interface BlogpostInput {
 export async function createBlogpost(
   blogpost: BlogpostInput,
 ): Promise<Blogpost> {
-  const response = await fetchData("/api/blogposts", {
+  const response = await fetchData("/api/blog/blogpost/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +42,7 @@ export async function updateBlogpost(
   blogpostId: string,
   blogpost: BlogpostInput,
 ): Promise<Blogpost> {
-  const response = await fetchData("/api/blogposts/" + blogpostId, {
+  const response = await fetchData("/api/blog/blogpost/" + blogpostId, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -61,5 +53,5 @@ export async function updateBlogpost(
 }
 
 export async function deleteBlogpost(blogpostId: string) {
-  await fetchData("/api/blogposts/" + blogpostId, { method: "DELETE" });
+  await fetchData("/api/blog/blogpost/" + blogpostId, { method: "DELETE" });
 }

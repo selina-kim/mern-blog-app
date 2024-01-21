@@ -3,8 +3,15 @@ import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import BlogpostCard from "../components/BlogpostCard";
 import * as BlogpostsApi from "../api/blogposts_api";
 import { ScaleLoader } from "react-spinners";
+import { User } from "../models/user";
+import { useParams } from "react-router-dom";
 
-export function HomePage() {
+interface HomePageProps {
+  loggedInUser: User | null;
+}
+
+export function HomePage({ loggedInUser }: HomePageProps) {
+  const { username } = useParams();
   const [blogpostCards, setBlogpostCards] = useState<BlogpostCardModel[]>([]);
   const [blogpostCardsLoading, setBlogpostCardsLoading] = useState(true);
   const [showBlogpostCardsLoadingError, setShowBlogpostCardsLoadingError] =
@@ -15,7 +22,7 @@ export function HomePage() {
       try {
         setShowBlogpostCardsLoadingError(false);
         setBlogpostCardsLoading(true);
-        const newBlogpostCards = await BlogpostsApi.fetchBlogposts();
+        const newBlogpostCards = await BlogpostsApi.fetchBlogposts(username!);
         setBlogpostCards(newBlogpostCards);
       } catch (error) {
         console.error(error);
@@ -48,6 +55,8 @@ export function HomePage() {
           blogpostCard={blogpostCard}
           key={blogpostCard._id}
           onDeleteBlogpostClicked={deleteBlogpost}
+          blogOwner={username!}
+          isBlogOwner={loggedInUser?.username == username}
         />
       ))}
     </div>

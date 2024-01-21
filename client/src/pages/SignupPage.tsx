@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import * as UsersApi from "../api/users_api";
+import { SignupError } from "../errors/users_error";
+import { Navigate } from "react-router-dom";
+import { UserContext } from "../userContext";
 
 export function SignupPage() {
+  const { setLoggedInUser } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +23,13 @@ export function SignupPage() {
     useState(false);
   const [showPasswordNotMatchWarning, setShowPasswordNotMatchWarning] =
     useState(false);
+  const [emailValidationWarning, setEmailValidationWarning] = useState("");
+  const [usernameValidationWarning, setUsernameValidationWarning] =
+    useState("");
+  const [passwordValidationWarning, setPasswordValidationWarning] =
+    useState("");
+
+  const [redirectHome, setRedirectHome] = useState(false);
 
   function hasEmptyField() {
     let empty = false;
@@ -55,19 +68,38 @@ export function SignupPage() {
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
+    setEmailValidationWarning("");
+    setUsernameValidationWarning("");
+    setPasswordValidationWarning("");
     if (!hasEmptyField() && passwordMatch()) {
+      try {
+        const signedIn = await UsersApi.signup({
+          username: username,
+          email: email,
+          password: password,
+        });
+        if (signedIn) {
+          const user = await UsersApi.getLoggedInUser();
+          setLoggedInUser(user);
+        }
+        setRedirectHome(true);
+      } catch (error) {
+        if (error instanceof SignupError) {
+          console.error(error);
+          setEmailValidationWarning(error.fields.email);
+          setUsernameValidationWarning(error.fields.username);
+          setPasswordValidationWarning(error.fields.password);
+        }
+      }
     }
   }
 
-  const requiredWarningStyle = "border-red-500 bg-red-50";
-  const requiredWarning = (
-    <div className="mb-2 mt-1 text-xs text-red-500">This field is required</div>
+  const inputFieldWarningStyle = "border-red-500 bg-red-50";
+  const inputFieldWarning = (warningMessage: string) => (
+    <div className="mb-2 mt-1 text-xs text-red-500">{warningMessage}</div>
   );
-  const passwordNotMatchWarning = (
-    <div className="mb-2 mt-1 text-xs text-red-500">
-      Password does not match.
-    </div>
-  );
+
+  if (redirectHome) return <Navigate to={`/${username}`} />;
 
   return (
     <div className="m-auto min-h-[560px] w-fit p-4">
@@ -83,7 +115,7 @@ export function SignupPage() {
             Email
           </label>
           <div
-            className={`w-full rounded-md border ${showEmailEmptyWarning ? requiredWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
+            className={`w-full rounded-md border ${showEmailEmptyWarning || emailValidationWarning != "" ? inputFieldWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
           >
             <input
               type="text"
@@ -97,7 +129,10 @@ export function SignupPage() {
               }}
             />
           </div>
-          {showEmailEmptyWarning && requiredWarning}
+          {showEmailEmptyWarning &&
+            inputFieldWarning("This field is required.")}
+          {emailValidationWarning != "" &&
+            inputFieldWarning(emailValidationWarning)}
         </div>
 
         <div>
@@ -105,7 +140,7 @@ export function SignupPage() {
             Username
           </label>
           <div
-            className={`w-full rounded-md border ${showUsernameEmptyWarning ? requiredWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
+            className={`w-full rounded-md border ${showUsernameEmptyWarning || usernameValidationWarning != "" ? inputFieldWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
           >
             <input
               type="text"
@@ -119,7 +154,10 @@ export function SignupPage() {
               }}
             />
           </div>
-          {showUsernameEmptyWarning && requiredWarning}
+          {showUsernameEmptyWarning &&
+            inputFieldWarning("This field is required")}
+          {usernameValidationWarning != "" &&
+            inputFieldWarning(usernameValidationWarning)}
         </div>
 
         <div>
@@ -127,7 +165,7 @@ export function SignupPage() {
             Password
           </label>
           <div
-            className={`flex w-full flex-row gap-2 rounded-md border ${showPasswordEmptyWarning ? requiredWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
+            className={`flex w-full flex-row gap-2 rounded-md border ${showPasswordEmptyWarning || passwordValidationWarning != "" ? inputFieldWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
           >
             <input
               type={showPassword ? "text" : "password"}
@@ -148,7 +186,10 @@ export function SignupPage() {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-          {showPasswordEmptyWarning && requiredWarning}
+          {showPasswordEmptyWarning &&
+            inputFieldWarning("This field is required.")}
+          {passwordValidationWarning != "" &&
+            inputFieldWarning(passwordValidationWarning)}
         </div>
 
         <div>
@@ -159,7 +200,7 @@ export function SignupPage() {
             Confirm Password
           </label>
           <div
-            className={`flex w-full flex-row gap-2 rounded-md border ${showConfirmPasswordEmptyWarning || showPasswordNotMatchWarning ? requiredWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
+            className={`flex w-full flex-row gap-2 rounded-md border ${showConfirmPasswordEmptyWarning || showPasswordNotMatchWarning ? inputFieldWarningStyle : "mb-5 border-gray-400"} p-3 focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2`}
           >
             <input
               type={showConfirmPassword ? "text" : "password"}
@@ -182,8 +223,9 @@ export function SignupPage() {
           </div>
           {showConfirmPasswordEmptyWarning &&
             !showPasswordNotMatchWarning &&
-            requiredWarning}
-          {showPasswordNotMatchWarning && passwordNotMatchWarning}
+            inputFieldWarning("This field is required")}
+          {showPasswordNotMatchWarning &&
+            inputFieldWarning("Password does not match.")}
         </div>
 
         <button className="my-4 rounded-md bg-violet-500 p-3 font-medium text-white focus-within:outline-none focus-within:ring-2 focus-within:ring-violet-500 focus-within:ring-offset-2">

@@ -2,17 +2,21 @@ import { config } from "dotenv";
 config();
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import createHttpError, { isHttpError } from "http-errors";
 
 import blogpostsRoutes from "./routes/blogpostsRoutes";
+import userRoutes from "./routes/usersRoutes";
 
 const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 // Endpoints
-app.use("/api/blogposts", blogpostsRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/blog", blogpostsRoutes);
 
 // Non-existent Endpoint Handler Middleware
 app.use((req, res, next) => {

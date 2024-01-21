@@ -10,8 +10,13 @@ import { Blogpost } from "../models/blogpost";
 import * as BlogpostsApi from "../api/blogposts_api";
 import EditorPublishDialog from "../components/EditorPublishDialog";
 import EditorTitleEmptyDialog from "../components/EditorTitleEmptyDialog";
+import { User } from "../models/user";
 
-export function BlogpostEditorPage() {
+interface BlogpostEditorPageProps {
+  loggedInUser: User | null;
+}
+
+export function BlogpostEditorPage({ loggedInUser }: BlogpostEditorPageProps) {
   const [blogpostId, setBlogpostId] = useState("");
   const { origBlogpostId } = useParams();
 

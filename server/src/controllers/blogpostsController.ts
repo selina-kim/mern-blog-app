@@ -1,11 +1,32 @@
+import env from "../util/validateEnv";
 import { RequestHandler } from "express";
 import BlogpostModel from "../models/BlogPost";
 import createHttpError from "http-errors";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
+import UserModel from "../models/User";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+const findUserIdByUsername = async (username: string) => {
+  const user = await UserModel.findOne({ username: username });
+  if (user) return user._id;
+};
+
+const findUsernameByUserId = async (userId: Types.ObjectId) => {
+  const user = await UserModel.findOne({ _id: userId });
+  if (user) return user.username;
+};
 
 export const getBlogposts: RequestHandler = async (req, res, next) => {
+  const username = req.params.username;
+
   try {
-    const blogposts = await BlogpostModel.find().select("-content").exec();
+    const userId = await findUserIdByUsername(username);
+    const blogposts = await BlogpostModel.find({
+      userId: userId,
+    })
+      .select("-content -userId")
+      .exec();
+
     res.status(200).json(blogposts);
   } catch (error) {
     next(error);
@@ -26,7 +47,28 @@ export const getBlogpost: RequestHandler = async (req, res, next) => {
       throw createHttpError(404, "Blog post not found.");
     }
 
-    res.status(200).json(blogpost);
+    const {
+      _id,
+      title,
+      summary,
+      content,
+      thumbnail,
+      createdAt,
+      updatedAt,
+      userId,
+    } = blogpost;
+    const username = await findUsernameByUserId(userId);
+
+    res.status(200).json({
+      _id,
+      title,
+      summary,
+      content,
+      thumbnail,
+      createdAt,
+      updatedAt,
+      username,
+    });
   } catch (error) {
     next(error);
   }
@@ -52,11 +94,15 @@ export const createBlogpost: RequestHandler<
       throw createHttpError(400, "Blog post must have a title.");
     }
 
+    const token = req.cookies.jwt;
+    const { id } = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
+
     const newBlogpost = await BlogpostModel.create({
       title: title,
       summary: summary,
       content: content,
       thumbnail: thumbnail,
+      userId: id,
     });
 
     res.status(201).json(newBlogpost);
