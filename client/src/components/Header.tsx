@@ -23,15 +23,28 @@ export function Header({ onLogoutSuccessful }: HeaderProps) {
   return (
     <header className="fixed left-0 top-0 z-10 box-border w-full border-b-[1px] border-violet-500 bg-white">
       <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-8">
-        {loggedInUser ? (
-          <Link to={`/${loggedInUser.username}`} className="text-2xl font-bold">
-            blog
-          </Link>
-        ) : (
-          <Link to="/" className="text-2xl font-bold">
-            blog
-          </Link>
-        )}
+        <div className="flex flex-row gap-x-2">
+          {loggedInUser ? (
+            <Link
+              to={`/blog/${loggedInUser.username}`}
+              className="text-2xl font-bold"
+            >
+              blog
+            </Link>
+          ) : (
+            <Link to="/" className="text-2xl font-bold">
+              blog
+            </Link>
+          )}
+          {username && (
+            <>
+              <div className="w-0.5 bg-black" />
+              <Link to={`/blog/${username}`}>
+                <h1 className="text-2xl">{username}</h1>
+              </Link>
+            </>
+          )}
+        </div>
 
         {loggedInUser ? (
           <nav className="flex gap-4">

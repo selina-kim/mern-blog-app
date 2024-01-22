@@ -14,6 +14,8 @@ import { BlogpostEditorPage } from "./pages/BlogpostEditorPage.tsx";
 import * as UsersApi from "./api/users_api";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./userContext.tsx";
+import { NoBlogPage } from "./pages/NoBlogPage.tsx";
+import { NotFoundPage } from "./pages/NotFoundPage.tsx";
 
 export default function App() {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
@@ -41,9 +43,9 @@ export default function App() {
           />
         }
       >
-        <Route index element={<div>a</div>} />
+        <Route index element={<NoBlogPage />} />
         <Route
-          path=":username"
+          path="blog/:username"
           element={<HomePage loggedInUser={loggedInUser} />}
         />
         <Route path="login" element={<LoginPage />} />
@@ -56,6 +58,7 @@ export default function App() {
           path="editor/:origBlogpostId?"
           element={<BlogpostEditorPage loggedInUser={loggedInUser} />}
         />
+        <Route path="/*" element={<NotFoundPage />} />
       </Route>,
     ),
   );

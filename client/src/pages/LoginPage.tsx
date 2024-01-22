@@ -63,7 +63,7 @@ export function LoginPage() {
     <div className="mb-2 mt-1 text-xs text-red-500">{warningMessage}</div>
   );
 
-  if (redirectHome) return <Navigate to={`/${username}`} />;
+  if (redirectHome) return <Navigate to={`/blog/${username}`} />;
 
   return (
     <div className="m-auto min-h-[560px] w-fit p-4">
