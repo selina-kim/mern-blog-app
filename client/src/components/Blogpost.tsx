@@ -4,22 +4,22 @@ import { formatDateLong } from "../utils/formatDateLong";
 import { Blogpost as BlogpostModel } from "../models/blogpost";
 import { PiPencilSimpleLineBold, PiTrashBold } from "react-icons/pi";
 import { Navigate } from "react-router-dom";
-import { useState } from "react";
-import { User } from "../models/user";
+import { useContext, useState } from "react";
+import { UserContext } from "../userContext";
 
 interface BlogpostProps {
   blogpost: BlogpostModel;
   onDeleteBlogpostClicked: (blogpostId: string) => void;
   width: string;
-  loggedInUser: User | null;
 }
 
 const Blogpost = ({
   blogpost,
   onDeleteBlogpostClicked,
   width,
-  loggedInUser,
 }: BlogpostProps) => {
+  const { loggedInUser } = useContext(UserContext);
+
   const { title, summary, content, thumbnail, createdAt, updatedAt, username } =
     blogpost;
 

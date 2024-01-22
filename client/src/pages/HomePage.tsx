@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BlogpostCard as BlogpostCardModel } from "../models/blogpostCard";
 import BlogpostCard from "../components/BlogpostCard";
 import * as BlogpostsApi from "../api/blogposts_api";
 import { ScaleLoader } from "react-spinners";
-import { User } from "../models/user";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../userContext";
 
-interface HomePageProps {
-  loggedInUser: User | null;
-}
-
-export function HomePage({ loggedInUser }: HomePageProps) {
+export function HomePage() {
   const { username } = useParams();
+  const { loggedInUser } = useContext(UserContext);
+
   const [blogpostCards, setBlogpostCards] = useState<BlogpostCardModel[]>([]);
   const [blogpostCardsLoading, setBlogpostCardsLoading] = useState(true);
   const [showBlogpostCardsLoadingError, setShowBlogpostCardsLoadingError] =
@@ -66,10 +64,7 @@ export function HomePage({ loggedInUser }: HomePageProps) {
     <>
       {blogpostCardsLoading && (
         <div className="flex h-full flex-col items-center justify-center">
-          <ScaleLoader
-            color="#8b5cf6"
-            // aria-label="Loading Spinner"
-          />
+          <ScaleLoader color="#8b5cf6" aria-label="Loading Spinner" />
         </div>
       )}
       {showBlogpostCardsLoadingError && (

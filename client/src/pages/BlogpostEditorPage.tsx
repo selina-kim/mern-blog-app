@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -10,13 +10,11 @@ import { Blogpost } from "../models/blogpost";
 import * as BlogpostsApi from "../api/blogposts_api";
 import EditorPublishDialog from "../components/EditorPublishDialog";
 import EditorTitleEmptyDialog from "../components/EditorTitleEmptyDialog";
-import { User } from "../models/user";
+import { UserContext } from "../userContext";
 
-interface BlogpostEditorPageProps {
-  loggedInUser: User | null;
-}
+export function BlogpostEditorPage() {
+  const { loggedInUser } = useContext(UserContext);
 
-export function BlogpostEditorPage({ loggedInUser }: BlogpostEditorPageProps) {
   const [blogpostId, setBlogpostId] = useState("");
   const { origBlogpostId } = useParams();
 
@@ -99,7 +97,10 @@ export function BlogpostEditorPage({ loggedInUser }: BlogpostEditorPageProps) {
     }
   }
 
-  if (redirectHome) return <Navigate to="/" />;
+  if (redirectHome)
+    return (
+      <Navigate to={loggedInUser ? `/blog/${loggedInUser.username}` : "/"} />
+    );
   if (redirectBlogpost) return <Navigate to={`/blogpost/${blogpostId}`} />;
 
   return (
