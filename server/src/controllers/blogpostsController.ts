@@ -21,6 +21,11 @@ export const getBlogposts: RequestHandler = async (req, res, next) => {
 
   try {
     const userId = await findUserIdByUsername(username);
+
+    if (!mongoose.isValidObjectId(userId)) {
+      throw createHttpError(400, "Invalid username.");
+    }
+
     const blogposts = await BlogpostModel.find({
       userId: userId,
     })
@@ -57,6 +62,11 @@ export const getBlogpost: RequestHandler = async (req, res, next) => {
       updatedAt,
       userId,
     } = blogpost;
+
+    if (!mongoose.isValidObjectId(userId)) {
+      throw createHttpError(400, "Invalid user ID.");
+    }
+
     const username = await findUsernameByUserId(userId);
 
     res.status(200).json({
