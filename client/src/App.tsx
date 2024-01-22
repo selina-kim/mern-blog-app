@@ -18,7 +18,7 @@ import { NoBlogPage } from "./pages/NoBlogPage.tsx";
 import { NotFoundPage } from "./pages/NotFoundPage.tsx";
 
 export default function App() {
-  const { setLoggedInUser } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
     async function fetchLoggedInUser() {
@@ -45,7 +45,7 @@ export default function App() {
         <Route path="blogpost/:blogpostId" element={<BlogpostPage />} />
         <Route
           path="editor/:origBlogpostId?"
-          element={<BlogpostEditorPage />}
+          element={loggedInUser ? <BlogpostEditorPage /> : <NotFoundPage />}
         />
         <Route path="/*" element={<NotFoundPage />} />
       </Route>,
