@@ -6,7 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import Layout from "./Layout.tsx";
-import { HomePage } from "./pages/HomePage.tsx";
+import { BlogMainPage } from "./pages/BlogMainPage.tsx";
 import { LoginPage } from "./pages/LoginPage.tsx";
 import { SignupPage } from "./pages/SignupPage.tsx";
 import { BlogpostPage } from "./pages/BlogpostPage.tsx";
@@ -14,7 +14,7 @@ import { BlogpostEditorPage } from "./pages/BlogpostEditorPage.tsx";
 import * as UsersApi from "./api/users_api";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./userContext.tsx";
-import { NoBlogPage } from "./pages/NoBlogPage.tsx";
+import { HomePage } from "./pages/HomePage.tsx";
 import { NotFoundPage } from "./pages/NotFoundPage.tsx";
 
 export default function App() {
@@ -38,8 +38,8 @@ export default function App() {
         path="/"
         element={<Layout onLogoutSuccessful={() => setLoggedInUser(null)} />}
       >
-        <Route index element={<NoBlogPage />} />
-        <Route path="blog/:username" element={<HomePage />} />
+        <Route index element={<HomePage />} />
+        <Route path="blog/:username" element={<BlogMainPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
         <Route path="blogpost/:blogpostId" element={<BlogpostPage />} />
