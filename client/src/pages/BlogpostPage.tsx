@@ -42,7 +42,7 @@ export function BlogpostPage({ loggedInUser }: BlogpostPageProps) {
 
   return (
     <>
-      <div className="px-8 py-8">
+      <div className="p-4 md:p-8">
         {blogpost.map((blogpost) => (
           <Blogpost
             width="656"

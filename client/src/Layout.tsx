@@ -14,7 +14,7 @@ function Layout({ loggedInUser, onLogoutSuccessful }: LayoutProps) {
         loggedInUser={loggedInUser}
         onLogoutSuccessful={onLogoutSuccessful}
       />
-      <div className="mx-auto mt-[97px] h-[calc(100vh-97px)] min-h-fit max-w-3xl px-4">
+      <div className="mx-auto mt-[69px] h-[calc(100vh-69px)] min-h-fit max-w-3xl px-4 sm:mt-[97px] sm:h-[calc(100vh-97px)]">
         <Outlet />
       </div>
     </>

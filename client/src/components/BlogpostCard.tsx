@@ -40,10 +40,10 @@ const BlogpostCard = ({
       <Link to={`/blogpost/${blogpostCard._id}`} className="w-full">
         <div className="flex flex-row gap-x-2 rounded-lg border border-gray-300 p-2 md:gap-x-3 md:p-3">
           <div className="flex h-24 w-full flex-col md:h-36">
-            <h2 className="line-clamp-1 text-lg font-bold md:text-2xl">
+            <h2 className="line-clamp-1 font-bold sm:text-lg md:text-2xl">
               {title}
             </h2>
-            <div className="flex flex-row justify-start gap-x-3">
+            <div className="flex flex-col justify-start gap-x-3 sm:flex-row">
               <p className="text-xs font-semibold">{blogOwner}</p>
               <time className="text-xs text-gray-400">{latestDate}</time>
             </div>

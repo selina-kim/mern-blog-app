@@ -103,7 +103,7 @@ export function BlogpostEditorPage({ loggedInUser }: BlogpostEditorPageProps) {
   if (redirectBlogpost) return <Navigate to={`/blogpost/${blogpostId}`} />;
 
   return (
-    <div className="grid grid-cols-1 gap-y-6 px-8 py-8">
+    <div className="grid grid-cols-1 gap-y-6 p-4 md:p-8">
       <div className="right-0 flex flex-row justify-between">
         <button
           type="button"

@@ -49,7 +49,7 @@ export function HomePage({ loggedInUser }: HomePageProps) {
   }
 
   const blogpostCardsGrid = (
-    <div className="grid grid-cols-1 gap-y-7 py-8 text-left">
+    <div className="grid grid-cols-1 gap-y-5 py-8 text-left sm:gap-y-7">
       {blogpostCards.map((blogpostCard) => (
         <BlogpostCard
           blogpostCard={blogpostCard}
