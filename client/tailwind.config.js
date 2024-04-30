@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Poppins", "Inter"],
+        sans: ["Poppins", "Inter", ...defaultTheme.fontFamily.sans],
       },
       typography: ({ theme }) => ({
         "my-colors": {

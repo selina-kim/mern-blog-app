@@ -43,10 +43,9 @@ export function BlogpostPage() {
 
   return (
     <>
-      <div className="p-4 md:p-8">
+      <div className="w-full p-4 md:p-8">
         {blogpost.map((blogpost) => (
           <Blogpost
-            width="656"
             key={blogpost._id}
             blogpost={blogpost}
             onDeleteBlogpostClicked={deleteBlogpost}

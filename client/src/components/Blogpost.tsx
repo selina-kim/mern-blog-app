@@ -10,14 +10,9 @@ import { UserContext } from "../userContext";
 interface BlogpostProps {
   blogpost: BlogpostModel;
   onDeleteBlogpostClicked: (blogpostId: string) => void;
-  width: string;
 }
 
-const Blogpost = ({
-  blogpost,
-  onDeleteBlogpostClicked,
-  width,
-}: BlogpostProps) => {
+const Blogpost = ({ blogpost, onDeleteBlogpostClicked }: BlogpostProps) => {
   const { loggedInUser } = useContext(UserContext);
 
   const { title, summary, content, thumbnail, createdAt, updatedAt, username } =
@@ -50,7 +45,7 @@ const Blogpost = ({
           </button>
         </div>
       )}
-      <div className={`mb-8 border-b-[1px] py-8 w-[${width}px]`}>
+      <div className={`mb-8 border-b-[1px] py-8`}>
         <h1 className="mb-3 text-2xl font-bold sm:text-4xl">{title}</h1>
         <h2 className="mb-6 font-semibold italic sm:text-lg">{summary}</h2>
         <div className="text-sm leading-tight">
@@ -66,7 +61,7 @@ const Blogpost = ({
       <div className="prose prose-sm prose-my-colors prose-h5:font-medium prose-li:my-0">
         <Markdown
           remarkPlugins={[[remarkGfm, { singleTilde: false }]]}
-          className={`w-[${width}px]`}
+          className={`md:w-[672px]`}
         >
           {content}
         </Markdown>
