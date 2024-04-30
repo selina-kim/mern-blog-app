@@ -4,16 +4,32 @@
 
 MERN Stack Markdown Blog App built with MongoDB, Express.js, React, Node.js and Typescript.
 
+## Dev Commands
+
+```
+cd server
+npm run dev
+```
+
+```
+cd client
+npm run dev
+```
+
+## Structure
+
 ### Frontend
+
 - `vite`
 - `tailwindcss`
 - `react`
 - `react-icons`
 - `headlessui`
-- `react-markdown` 
+- `react-markdown`
 - `@uiw/react-md-editor`
 
 ### Backend
+
 - `express.js`
 - `mongoose`
 - `nodemon`
@@ -24,6 +40,7 @@ MERN Stack Markdown Blog App built with MongoDB, Express.js, React, Node.js and 
 - `cookie-parser`
 
 ### Features
+
 - [x] Markdown
 - [x] JWT Authentication / Authorization
 - [ ] Image Upload Functionality
