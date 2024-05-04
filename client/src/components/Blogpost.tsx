@@ -48,6 +48,13 @@ const Blogpost = ({ blogpost, onDeleteBlogpostClicked }: BlogpostProps) => {
       <div className={`mb-8 border-b-[1px] py-8`}>
         <h1 className="mb-3 text-2xl font-bold sm:text-4xl">{title}</h1>
         <h2 className="mb-6 font-semibold italic sm:text-lg">{summary}</h2>
+        {thumbnail != "" && (
+          <img
+            src={thumbnail}
+            alt="Thumbnail"
+            className="mx-auto mb-5 h-[500px] max-w-full"
+          />
+        )}
         <div className="text-sm leading-tight">
           <p className="mb-1 font-semibold">{username}</p>
           <time className="block text-gray-400">
