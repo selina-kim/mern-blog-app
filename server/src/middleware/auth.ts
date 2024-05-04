@@ -15,6 +15,7 @@ export const requiresAuth: RequestHandler<
     console.log(decodedToken);
     next();
   } catch (error) {
+    console.error(error);
     next(createHttpError(401, "User not authenticated."));
   }
 };

@@ -1,11 +1,16 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { SignupError, UnauthorizedError } from "../errors/users_error";
 
-export async function fetchData(input: RequestInfo, init?: RequestInit) {
-  const response = await fetch(input, init);
-  if (response.ok) {
-    return response;
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "https://mern-blog-app-server-mocha.vercel.app";
+
+export async function fetchData(input: string, init?: AxiosRequestConfig) {
+  const response: AxiosResponse = await axios(input, init);
+
+  if (response.status == 200 || response.status == 201) {
+    return response.data;
   } else {
-    const errorBody = await response.json();
+    const errorBody = await response.data;
 
     if (errorBody.errors) {
       const errorFields = errorBody.errors;

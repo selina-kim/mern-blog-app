@@ -86,6 +86,8 @@ export const signup: RequestHandler<
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: env.JWT_EXPIRES_IN * 1000,
+      secure: true,
+      sameSite: "none",
     });
     res.status(201).json({ user: newUser._id });
   } catch (error) {
@@ -132,6 +134,8 @@ export const login: RequestHandler<
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: env.JWT_EXPIRES_IN * 1000,
+      secure: true,
+      sameSite: "none",
     });
     res.status(201).json({ user: user._id });
   } catch (error) {

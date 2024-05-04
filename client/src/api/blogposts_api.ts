@@ -8,14 +8,14 @@ export async function fetchBlogposts(
   const response = await fetchData("/api/blog/" + username, {
     method: "GET",
   });
-  return response.json();
+  return response;
 }
 
 export async function fetchBlogpost(blogpostId: string): Promise<Blogpost> {
   const response = await fetchData("/api/blog/blogpost/" + blogpostId, {
     method: "GET",
   });
-  return response.json();
+  return response;
 }
 
 export interface BlogpostInput {
@@ -33,9 +33,9 @@ export async function createBlogpost(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(blogpost),
+    data: JSON.stringify(blogpost),
   });
-  return response.json();
+  return response;
 }
 
 export async function updateBlogpost(
@@ -47,9 +47,9 @@ export async function updateBlogpost(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(blogpost),
+    data: JSON.stringify(blogpost),
   });
-  return response.json();
+  return response;
 }
 
 export async function deleteBlogpost(blogpostId: string) {
