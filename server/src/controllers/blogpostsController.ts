@@ -1,6 +1,6 @@
 import env from "../util/validateEnv";
 import { RequestHandler } from "express";
-import BlogpostModel from "../models/BlogPost";
+import BlogpostModel from "../models/Blogpost";
 import createHttpError from "http-errors";
 import mongoose, { Types } from "mongoose";
 import UserModel from "../models/User";
