@@ -6,7 +6,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:9000",
+        target: "https://mern-blog-app-server-mocha.vercel.app",
+        changeOrigin: true,
         secure: false,
       },
     },
