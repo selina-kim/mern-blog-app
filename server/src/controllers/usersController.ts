@@ -145,7 +145,7 @@ export const login: RequestHandler<
 
 export const logout: RequestHandler = (req, res, next) => {
   try {
-    res.cookie("jwt", "", { maxAge: 1 });
+    res.cookie("jwt", "", { maxAge: 1, secure: true, sameSite: "none" });
     res.sendStatus(200);
   } catch (error) {
     next(error);
