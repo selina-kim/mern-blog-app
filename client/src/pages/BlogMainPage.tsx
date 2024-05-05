@@ -50,6 +50,7 @@ export function BlogMainPage() {
     <div className="grid grid-cols-1 gap-y-5 py-8 text-left sm:gap-y-7">
       {blogpostCards.map((blogpostCard) => (
         <BlogpostCard
+          username={username}
           blogpostCard={blogpostCard}
           key={blogpostCard._id}
           onDeleteBlogpostClicked={deleteBlogpost}

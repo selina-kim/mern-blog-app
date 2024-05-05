@@ -39,10 +39,10 @@ export default function App() {
         element={<Layout onLogoutSuccessful={() => setLoggedInUser(null)} />}
       >
         <Route index element={<HomePage />} />
+        <Route path="blog/:username/:blogpostId" element={<BlogpostPage />} />
         <Route path="blog/:username" element={<BlogMainPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
-        <Route path="blogpost/:blogpostId" element={<BlogpostPage />} />
         <Route
           path="editor/:origBlogpostId?"
           element={loggedInUser ? <BlogpostEditorPage /> : <NotFoundPage />}

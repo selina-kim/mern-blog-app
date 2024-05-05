@@ -101,7 +101,12 @@ export function BlogpostEditorPage() {
     return (
       <Navigate to={loggedInUser ? `/blog/${loggedInUser.username}` : "/"} />
     );
-  if (redirectBlogpost) return <Navigate to={`/blogpost/${blogpostId}`} />;
+  if (redirectBlogpost)
+    return (
+      <Navigate
+        to={loggedInUser ? `/blog/${loggedInUser.username}/${blogpostId}` : "/"}
+      />
+    );
 
   return (
     <div className="grid grid-cols-1 gap-y-6 p-4 md:p-8">
