@@ -5,25 +5,22 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "https://mern-blog-app-server-mocha.vercel.app";
 
 export async function fetchData(input: string, init?: AxiosRequestConfig) {
-  const response: AxiosResponse = await axios(input, init);
-
-  if (response.status == 200 || response.status == 201) {
+  try {
+    const response: AxiosResponse = await axios(input, init);
     return response.data;
-  } else {
-    const errorBody = await response.data;
-
+  } catch (error: any) {
+    const errorBody = await error.response.data;
     if (errorBody.errors) {
       const errorFields = errorBody.errors;
       throw new SignupError(errorFields);
     } else {
       const errorMessage = errorBody.error;
-
-      if (response.status === 401) {
+      if (error.response.status === 401) {
         throw new UnauthorizedError(errorMessage);
       } else {
         throw Error(
           "Request failed with status: " +
-            response.status +
+            error.response.status +
             " message: " +
             errorMessage,
         );
