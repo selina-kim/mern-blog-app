@@ -30,7 +30,7 @@ export function BlogMainPage() {
       }
     }
     loadBlogpostCards();
-  }, []);
+  }, [username]);
 
   async function deleteBlogpost(blogpostId: string) {
     try {
