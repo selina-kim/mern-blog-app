@@ -52,7 +52,7 @@ const Blogpost = ({ blogpost, onDeleteBlogpostClicked }: BlogpostProps) => {
           <img
             src={thumbnail}
             alt="Thumbnail"
-            className="mx-auto mb-5 h-[500px] max-w-full"
+            className="mx-auto mb-5 max-w-full md:h-[500px]"
           />
         )}
         <div className="text-sm leading-tight">
